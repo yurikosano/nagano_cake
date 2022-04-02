@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="center-block">
+      <h2>商品一覧</h2>
+      <%= link_to "", new_admin_item_path, class: "col-xs-1 col-xs-offset-11 btn btn-default glyphicon glyphicon-plus" %>
+      <table class="table table-hover table-inverse">
+        <thead class="thead-light">
+          <tr>
+            <th>商品id</th>
+            <th>商品名</th>
+            <th>税抜価格</th>
+            <th>ジャンル</th>
+            <th>販売ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @items.each do |item| %>
+          <tr>
+            <td><%= item.id %></td>
+            <td><%= item.name %></td>
+            <td><%= item.price %></td>
+            <td><%= item.genre_id %></td>
+            <td></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
