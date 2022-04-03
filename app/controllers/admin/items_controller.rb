@@ -23,7 +23,20 @@ class Admin::ItemsController < ApplicationController
   end
 
   def edit
+    @item = Item.find(params[:id])
   end
+
+  def update
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      flash[:success] = "商品情報を更新しました"
+      redirect_to admin_item_path(@item.id)
+    else
+      flash[:danger] = "商品情報を入力してください"
+    render edit_admin_item_path(@item.id)
+    end
+  end
+
 
   private
   def item_params
