@@ -1,14 +1,17 @@
 Rails.application.routes.draw do
+  root to: "public/homes#top"
+  
+  devise_for :customers, :controllers => {
+    registrations: "public/registrations",
+    sessions: 'public/sessions'
+}
   namespace :public do
-    get 'orders/new'
-    get 'orders/index'
-    get 'orders/show'
-  end
-  namespace :public do
-    root to: "homes#top"
     get 'homes/about' => "homes#about"
     get 'items/index'
     get 'items/show'
+    get 'orders/new'
+    get 'orders/index'
+    get 'orders/show'
   end
 devise_for :admins, :controllers => {
     registrations: "admins/registrations",
