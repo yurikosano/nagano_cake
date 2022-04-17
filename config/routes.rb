@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   root to: "public/homes#top"
-  
-  devise_for :customers, :controllers => {
-    registrations: "public/registrations",
-    sessions: 'public/sessions'
+  get '/about' => "public/homes#about"
+
+devise_for :customers,skip: [:passwords], controllers: {
+  registrations: "public/registrations",
+  sessions: 'public/sessions'
 }
   namespace :public do
     get 'homes/about' => "homes#about"
@@ -13,9 +14,8 @@ Rails.application.routes.draw do
     get 'orders/index'
     get 'orders/show'
   end
-devise_for :admins, :controllers => {
-    registrations: "admins/registrations",
-    sessions: "admins/sessions",
+devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
+  sessions: "admin/sessions"
 }
 namespace :admin do
    root to: 'homes#top'
