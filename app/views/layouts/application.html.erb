@@ -18,12 +18,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav ml-auto">
-          <% if customer_signed_in? %>
+            <% if customer_signed_in? %>
             <span class="customer_name">
-              ようこそ、<%= current_customer.first_name %><%= current_customer.last_name %>
+              ようこそ、<%= current_customer.first_name %><%= current_customer.last_name %>さん！
             </span>
             <li class="nav-item">
-              <%= link_to public_customer_path(@customer.id), class: 'nav-link text-dark' do %><i class="fas fa-list"></i> マイページ<% end %>
+              <%= link_to public_customers_path, class: 'nav-link text-dark' do %><i class="fas fa-list"></i> マイページ<% end %>
             </li>
             <li class="nav-item">
                 <%= link_to public_items_path, class: 'nav-link text-dark' do %><i class="far fa-address-book"></i> 商品一覧<% end %>
@@ -34,18 +34,7 @@
             <li class="nav-item">
               <%= link_to destroy_customer_session_path, method: :delete, class: 'nav-link text-dark' do %><i class="fas fa-sign-out-alt"></i> ログアウト<% end %>
             </li>
-              <% else %>
-            <li class="nav-item">
-              <%= link_to new_customer_registration_path, class: 'nav-link text-dark' do %><i class="fas fa-user-plus"></i> 新規登録<% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to new_customer_session_path, class: 'nav-link text-dark' do %><i class="fas fa-sign-in-alt"></i> ログイン<% end %>
-            </li>
-          </ul>
-        </div>
-    </div>
-</nav>
-        <% elsif admin_signed_in? %>
+            <% elsif admin_signed_in? %>
             <li class="nav-item">
               <%= link_to admin_items_path, class: 'nav-link text-dark' do %><i class="fas fa-list"></i> 商品一覧<% end %>
             </li>
@@ -58,19 +47,21 @@
             <li class="nav-item">
               <%= link_to destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' do %><i class="fas fa-sign-out-alt"></i> ログアウト<% end %>
             </li>
+            <% else %>
+            <li class="nav-item">
+              <%= link_to new_customer_registration_path, class: 'nav-link text-dark' do %><i class="fas fa-user-plus"></i> 新規登録<% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to new_customer_session_path, class: 'nav-link text-dark' do %><i class="fas fa-sign-in-alt"></i> ログイン<% end %>
+            </li>
+            <li class="nav-item">
+             <%= link_to new_admin_session_path, class: 'nav-link text-dark' do %><i class="fas fa-sign-in-alt"></i> 管理者ログイン<% end %>
+            </li>
+            <% end %>
           </ul>
         </div>
       </div>
-      </nav>
-        <%= render 'layouts/admin' %>
-      <% else %>
-      <li class="nav-item">
-        <%= link_to new_customer_registration_path, class: 'nav-link text-dark' do %><i class="fas fa-user-plus"></i> 新規登録<% end %>
-      </li>
-      <li class="nav-item">
-        <%= link_to new_customer_session_path, class: 'nav-link text-dark' do %><i class="fas fa-sign-in-alt"></i> ログイン<% end %>
-      </li>
-      <% end %>
+     </nav>
     </header>
     <%= yield %>
     <footer>

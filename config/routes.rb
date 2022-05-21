@@ -11,7 +11,8 @@ devise_for :customers,skip: [:passwords], controllers: {
     get 'homes/about' => "homes#about"
     resources :items, only: [:index, :show]
     resources :orders, only: [:new, :index, :show]
-    resources :customers, only: [:show, :edit, :update, :destory]
+    resource :customers, only: [:show, :edit, :update, :destory]
+    resources :addresses, only: [:index, :edit, :update, :destroy, :create]
   end
 devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
   sessions: "admin/sessions"
