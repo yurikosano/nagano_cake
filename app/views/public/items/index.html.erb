@@ -14,7 +14,7 @@
                         <th><%= link_to item.name, item_path(@item) %></th>
                     </tr>
                     <tr>
-                        <th>￥<%= (item.price * 1.1).to_i %></th>
+                        <th>￥<%= (item.price * 1.1).floor %></th>
                     </tr>
                 </table>
             </div>

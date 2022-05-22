@@ -13,6 +13,7 @@ devise_for :customers,skip: [:passwords], controllers: {
     resources :orders, only: [:new, :index, :show]
     resource :customers, only: [:show, :edit, :update, :destory]
     resources :addresses, only: [:index, :edit, :update, :destroy, :create]
+    resources :cart_items, only: [:index, :create, :update, :destory]
   end
 devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
   sessions: "admin/sessions"
