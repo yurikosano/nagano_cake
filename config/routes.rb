@@ -10,7 +10,7 @@ devise_for :customers,skip: [:passwords], controllers: {
   namespace :public do
     get 'homes/about' => "homes#about"
     resources :items, only: [:index, :show]
-    resources :orders, only: [:new, :index, :show]
+    resources :orders, only: [:new, :index, :show, :confirm, :complete]
     resource :customers, only: [:show, :edit, :update, :destory]
     resources :addresses, only: [:index, :edit, :update, :destroy, :create]
     resources :cart_items, only: [:index, :create, :update, :destory]

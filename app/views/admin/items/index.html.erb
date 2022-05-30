@@ -20,7 +20,7 @@
             <td><%= item.name %></td>
             <td><%= item.price %></td>
             <td><%= item.genre_id %></td>
-            <td></td>
+            <td><%= item.sale_status %></td>
           </tr>
           <% end %>
           <%= paginate @items %>

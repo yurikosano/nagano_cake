@@ -1,7 +1,7 @@
 class Public::HomesController < ApplicationController
-  before_action :authenticate_customer!, expect[:top]
+  before_action :authenticate_customer!, except: [:top]
   def top
-    @items = Item.where(sale_status: "販売可")
+    @items = Item.where(is_active: true)
   end
 
   def about

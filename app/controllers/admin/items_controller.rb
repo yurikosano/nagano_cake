@@ -1,6 +1,6 @@
 class Admin::ItemsController < ApplicationController
   def index
-    @items = Item.page(params[:page])
+    @items = Item.page(params[:page]).per(10)
   end
 
   def new
@@ -30,16 +30,16 @@ class Admin::ItemsController < ApplicationController
     @item = Item.find(params[:id])
     if @item.update(item_params)
       flash[:success] = "商品情報を更新しました"
-      redirect_to admin_item_path(@item.id)
+      redirect_to admin_item_path(@item)
     else
       flash[:danger] = "商品情報を入力してください"
-    render edit_admin_item_path(@item.id)
+    render edit_admin_item_path(@item)
     end
   end
 
 
   private
   def item_params
-    params.require(:item).permit(:name, :price, :introduction, :genre_id, :image)
+    params.require(:item).permit(:name, :price, :introduction, :genre_id, :image, :is_active)
   end
 end
