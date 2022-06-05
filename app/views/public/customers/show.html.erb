@@ -2,8 +2,7 @@
     <div class="col-lg-6">
       <h2>マイページ</h2>
       <p><strong>＜登録情報＞</strong></p>
-      <%= link_to "編集する", edit_public_customers_path, class: "btn btn-success" %>
-      <%= link_to "パスワードを変更する", edit_customer_registration_path, class: "btn btn-danger" %>
+      <%= link_to "編集する", edit_customers_path, class: "btn btn-success" %>
       <table class="table table-borderd">
         <thread>
           <tr class="table-head" style="background-color:#F5F5F5;">
@@ -35,8 +34,8 @@
     </div>
   <div class="col-lg-12">
     <h4>配送先</h4>
-      <%= link_to "一覧を見る", class: "btn btn-primary" %><br />
+      <%= link_to "一覧を見る", addresses_path,class: "btn btn-primary" %><br />
     <h4>注文履歴</h4>
-      <%= link_to "一覧を見る", new_public_order_path, class: "btn btn-primary" %><br />
+      <%= link_to "一覧を見る", orders_path, class: "btn btn-primary" %><br />
   </div>
 </div>

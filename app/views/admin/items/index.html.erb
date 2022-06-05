@@ -2,7 +2,9 @@
   <div class="row">
     <div class="center-block">
       <h2>商品一覧</h2>
-      <%= link_to "", new_admin_item_path, class: "col-xs-1 col-xs-offset-11 btn btn-default glyphicon glyphicon-plus" %>
+      <%= link_to "商品追加", new_admin_item_path, class: "btn btn-primary" %>
+      <br />
+      <br />
       <table class="table table-hover table-inverse">
         <thead class="thead-light">
           <tr>
@@ -17,10 +19,16 @@
           <% @items.each do |item| %>
           <tr>
             <td><%= item.id %></td>
-            <td><%= item.name %></td>
+            <td><%= link_to item.name, admin_item_path(item) %></td>
             <td><%= item.price %></td>
-            <td><%= item.genre_id %></td>
-            <td><%= item.sale_status %></td>
+            <td><%= item.genre.name %></td>
+            <td>
+               <% if item.is_active == nil %>
+                  <strong class="text-success">販売中</strong>
+                <% else %>
+                  <strong class="text-danger">販売停止中</strong>
+                <% end %>
+            </td>
           </tr>
           <% end %>
           <%= paginate @items %>

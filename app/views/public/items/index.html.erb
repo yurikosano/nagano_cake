@@ -1,24 +1,50 @@
-<div class="row login-row">
-    <div class="col-xs-9">
-        <h2><%= "商品一覧 （全#{@items_all.count}件）" %></h2>
-        <% @items.each do |item| %>
-            <div class="item-box">
-                <table class="table">
-                    <tr>
-                        <th><%= link_to item_path(@item) do %>
-                            <%= attachment_image_tag(item, :image,size: "180x130", fallback: "no_image.jpg") %>
-                            <% end %>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th><%= link_to item.name, item_path(@item) %></th>
-                    </tr>
-                    <tr>
-                        <th>￥<%= (item.price * 1.1).floor %></th>
-                    </tr>
-                </table>
-            </div>
-        <% end %>
-        <%= paginate @items %>
+<div class="container my-5">
+ <div class="row">
+    <div class="col-3">
+      <%= render 'genrebox', genres: @genres %>
     </div>
-</div>
+    <div class="col-9">
+      <div class="row">
+        <h2 class="red-border px-3">
+          <% if params[:genre_id] %>
+            <%= @genre.name %>
+          <% else %>
+            すべての商品
+          <% end %>
+        </h2>
+       </div>  
+      <div class="row my-3 ml-1">
+        <strong class="brown-border">
+          全
+          <% if params[:genre_id] %>
+    	     <%= @items.order(created_at: :desc).where(is_active: "True").count %>
+          <% else %>
+    		    <%= Item.where(is_active: "True").count %>
+          <% end %>
+          件
+        </strong>
+      </div>
+	    <div class="row">
+	    	<% @items.each do |item| %>
+          <div class="col-3 mt-3"> 
+		        <%= link_to item_path(item) do %>
+		          <%= attachment_image_tag item, :image, size: "150x150", format: 'jpg', fallback: "no_image.jpg", class: 'rounded' %>
+		        <% end %><br>
+		        <span class="text-muted"><%= link_to item.genre.name, genre_items_path(item.genre_id) %></span><br>
+		        <strong class="red-border"><%= item.name %></strong><br>
+		        <span class="ml-auto"><%= (item.price * 1.1).floor %>円</span><br>
+          </div>
+        <% end %>
+	    </div>
+   </div>
+  </div>
+ <div class="container">
+	<div class="row">
+	 <div class="col-md-4 offset-md-4 py-2 mt-5">
+	 	<%= paginate @items %>
+	 </div>
+	</div>
+ </div>
+
+
+ </div>

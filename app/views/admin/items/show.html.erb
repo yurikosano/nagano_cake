@@ -9,7 +9,7 @@
           <%= image_tag 'no_image', size: "300x217" %>
         <% end %>
       </div>
-      <div class="col-lg-9">
+      <div class="col-lg-12">
         <table class="table">
           <tr>
             <th>商品名</th>
@@ -21,11 +21,21 @@
           </tr>
           <tr>
             <th>ジャンル</th>
-            <td><%= @item.genre_id %></td>
+            <td><%= @item.genre.name %></td>
           </tr>
           <tr>
-            <th>税込価格(税抜価格)</th>
-            <td><%= (@item.price * 1.1).to_i %>(<%= @item.price %>)円</td>
+            <th>税込価格</th>
+            <td><%= (@item.price * 1.1).floor %>円</td>
+          </tr>
+            <tr>
+            <th>販売ステータス</th>
+            <td>
+              <% if @item.is_active == nil %>
+                <strong class="text-success">販売中</strong>
+              <% else %>
+                <strong class="text-danger">販売停止中</strong>
+              <% end %>
+            </td>
           </tr>
         </table>
         <div>

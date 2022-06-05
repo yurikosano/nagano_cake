@@ -6,7 +6,7 @@ class Public::OrdersController < ApplicationController
   end
 
   def index
-    @orders = Order.where(customer.id:current_customer)
+    @orders = Order.where(customer_id:current_customer)
   end
 
   def create

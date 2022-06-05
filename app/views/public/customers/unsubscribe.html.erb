@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-12 col-md-offset-1">
+	<h3><p class="text-center">本当に退会しますか？</p></h3>
+			<div class = "withdrawal_text"><p class="text-center">退会すると、会員登録情報や</p>
+			<p class="text-center">これまでの購入履歴が閲覧できなくなります。</p>
+			<p class="text-center">退会する場合は、「退会する」をクリックしてください。</p>
+			</div>
+			<p class="text-center"><%= link_to "退会しない", customers_path(@customer), class: "btn btn-primary"%>
+			<%= link_to "退会する", withdrow_switch_customer_path(@customer), method: :patch, "data-confirm" => "本当に退会してもよろしいですか？", class: "btn btn-danger" %></p>
+	</div>
+</div>
