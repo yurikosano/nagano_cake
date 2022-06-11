@@ -1,20 +1,24 @@
 <div class="row login-row">
-	<div class="col-xs-offset-1">
+	<div class="col-lg-">
 		<div class="item-image">
-			<%= attachment_image_tag(@item, :image, fallback: "no_image.jpg",size: "300x217" ) %>
+      <% if @item.image.attached? %>
+        <%= image_tag @item.image, size: "300x217" %>
+      <% else %>
+        <%= image_tag 'no_image', size: "300x217" %>
+      <% end %>
 		</div>
 	</div>
-	<div class="col-xs-5">
+	<div class="col-xs-6">
 		<div class="detail">
 			<h2><%= @item.name %></h2>
-			<p><%= @item.explanation %></p>
-			<h3 class="product-price">￥<%= (@item.price * 1.1).to_i %><span>（税込）</span></h3>
-			<%= form_with(model: @inside_cart, url: inside_carts_path, method: :post, local: true) do |f| %>
-		      <%= f.label :quantity, "個数選択" %>
-		      <%= f.number_field :quantity, min: 1, max: 100, placeholder: '個数選択', class:"quantity-select-form" %>
-		      <%= f.hidden_field :id, :value => @product.id %>
-		      <%= f.submit "カートに入れる", class: "btn btn-primary" %>
-		    <% end %>
+			<p><%= @item.introduction %></p>
+			<h3 class="item-price">￥<%= (@item.price * 1.1).floor %><span>（税込）</span></h3>
+			<%= form_with model: @cart_item, url: cart_items_path, method: :post, local: true do |f| %>
+		  　<%= f.label :amount, "個数選択" %>
+		    <%= f.number_field :amount, min: 1, max: 100, placeholder: '個数選択', class: "quantity-select-form" %>
+		    <%= f.hidden_field :item_id, :value => @item.id %>
+		    <%= f.submit "カートに入れる", class: "btn btn-primary" %>
+		  <% end %>
 		</div>
 	</div>
 </div>

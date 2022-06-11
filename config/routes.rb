@@ -7,14 +7,15 @@ scope module: :public do
   get '/orders/confirm' => 'orders#confirm', as: 'orders_confirm'
   get '/orders/create_order' => 'orders#create_order'
   post '/orders/create_shipping_address' => 'orders#create_shipping_address'
-  delete '/cart_items' => 'cart_items#destroy_all'
   get '/customers/:id/unsubscribe' => 'customers#unsubscribe', as: 'unsubscribe_customer'
   patch '/customers/:id/withdrow' => 'customers#switch', as: 'withdrow_switch_customer'
   resources :items, only: [:index, :show]
   resources :orders, only: [:new, :index, :show, :confirm, :complete]
   resource :customers, only: [:show, :edit, :update, :withdrow, :unsubscribe]
   resources :addresses, only: [:index, :edit, :update, :destroy, :create]
-  resources :cart_items, only: [:index, :create, :update, :destory]
+  resources :cart_items, only: [:index, :create, :update, :destroy]
+  delete '/cart_items' => 'cart_items#destroy_all'
+
 end
 
 devise_for :customers,skip: [:passwords], controllers: {

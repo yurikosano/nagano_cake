@@ -2,15 +2,18 @@
   <div class="row">
     <div class="col-8">
       <h2>ようこそ！Nagano Cakeへ</h2>
-      <%= image_tag("top_image.jpg", class: "top_image") %>
       <p>このサイトは、ケーキや様々な種類のスイーツを販売するECサイトです。</p>
       <p>会員でない方も、商品はご覧いただけますが、</p>
       <p>ご購入の際は、会員登録が必要となります。</p>
       <h2>新着商品</h2>
       <% @items.last(4).each do |item| %>
         <%= link_to item_path(item) do %>
-          <%= attachment_image_tag @item, :image, :fill, 100, 100, format: 'jpg', fallback: 'no_image.jpg', size: "200x200", class: "rouded" %><br />
+        <% if item.image.attached? %>
+          <%= image_tag item.image, size: "300x217" %>
+        <% else %>
+          <%= image_tag 'no_image', size: "300x217" %>
         <% end %>
+      <% end %>
       <div class="row mt-3">
         <span class="red-border px-3">
           <%= item.name %>

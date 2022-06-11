@@ -1,12 +1,12 @@
 class Public::OrdersController < ApplicationController
   def new
-    @shipping_addresses = current_customer.shipping_addresses
-    @shipping_address = ShippingAddress.new
+    @addresses = current_customer.addresses
+    @address = Address.new
     @order = Order.new
   end
 
   def index
-    @orders = Order.where(customer_id:current_customer)
+    @orders = Order.where(customer_id :current_customer)
   end
 
   def create
@@ -14,7 +14,7 @@ class Public::OrdersController < ApplicationController
     if params[:select] == "select_address"
       session[:address] = params[:address]
     elsif params[:select] == "my_address"
-      session[:address] ="〒"+current_customer.post_code+current_customer.addredd+current_customer.last_name+current_customer.first_name
+      session[:address] ="〒"+current_customer.potal_code+current_customer.addredd+current_customer.last_name+current_customer.first_name
     end
     if session[:address].present? && session[:payment].present?
       redirect_to orders_confirm_path
@@ -36,7 +36,7 @@ class Public::OrdersController < ApplicationController
       @address = ShippingAddress.find(session[:address])
     end
   end
-  
+
   def create_shipping_address
     @shipping_address = ShippingAddress.new(shipping_address_params)
     @shipping_address.customer_id = current_customer.id
