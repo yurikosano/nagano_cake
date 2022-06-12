@@ -12,7 +12,7 @@ class Public::CustomersController < ApplicationController
    @customer = Customer.find(params[:id])
    if customer.update(customer_params)
     flash[:notice] = "編集しました。"
-    redirect_to customers_my_page
+    redirect_to customers_my_page_path
    else
     flash[:danger] = "編集されませんでした。"
     render :edit_public_customer

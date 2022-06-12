@@ -12,12 +12,12 @@
           お支払い方法
         </strong>
       </div>
-      <%= form_tag(orders_path, method: :post) do %>
+      <%= form_with model: @order, url: orders_confirm_path, method: :post do |f| %>
         <div class="form-check mt-3">
-          <%= radio_button_tag :payment, :クレジットカード %>
-          <%= label_tag :payment, "クレジットカード", {value: :"クレジットカード", style: "display: inline-block;"} %>
-          <%= radio_button_tag :payment, :銀行振込 %>
-          <%= label_tag :payment, "銀行振込", {value: :"銀行振込", style: "display: inline-block;"} %>
+          <%= f.radio_button :payment_method, :クレジットカード %>
+          <%= f.label :payment_method, "クレジットカード", {value: :"クレジットカード", style: "display: inline-block;"} %>
+          <%= f.radio_button :payment_method, :銀行振込 %>
+          <%= f.label :payment_method, "銀行振込", {value: :"銀行振込", style: "display: inline-block;"} %>
         </div>
         <div class="row mt-3">
           <strong class="red border px-3">
@@ -25,30 +25,25 @@
           </strong>
         </div>
         <div class="form-check mt-3">
-          <%= radio_button_tag :select, :my_address %>
-          <%= label_tag :select, "ご自身の住所", {value: :"my_address", style: "display: :inline-block;"} %>
+          <%= f.radio_button :select, :my_address %>
+          <%= f.label :select, "ご自身の住所", {value: :"my_address", style: "display: :inline-block;"} %>
           <br />
           <%= address = "〒" + current_customer.postal_code + current_customer.address %>
           <br />
-          <%= address = current_customer.first_name + current_customer.last_name %>
+          <%= address = current_customer.first_name + current_customer.last_name + "様" %>
           <br />
-          <%= radio_button_tag :select, :select_address %>
-          <%= select_tag :address_id, options_from_collection_for_select(current_customer.addresses, :id, :name, :address_display) %>
-          <%= address %>
+          <br />
+          <%= f.radio_button :select, :select_address %>
+          <%= f.select :address_id, options_from_collection_for_select(current_customer.addresses, :id, :address_display) %>
         </div>
-        <div class="row mt-5">
-          <%= submit_tag "確認画面へ進む", class: "btn btn-outline-danger ml-auto" %>
-        </div>
-        <% end %>
       <br />
     </div>
     <div class="offset-2 col-5">
       <di class="row">
-        <strong class="red border px-3">新しいお届け先を登録する</strong>
+        <strong class="red border px-3"><%= f.radio_button :select, :new_address %>新しいお届け先を登録する</strong>
       </div>
       <div class="offset-2 col-5">
         <div class="row">
-          <%= form_with model: @address, url: addresses_path do |f| %>
           <div class="form-group row mt-3">
             <%= f.text_field :potal_code, placeholder: "郵便番号", class: "form-control offset-1 col-10" %>
           </div>
@@ -60,7 +55,7 @@
             <%= f.text_field :first_name, placeholder: "名", class: "form-control offset-1 col-5" %>
           </div>
           <div class="row">
-            <%= f.submit "新規登録", class: "btn btn-md btn-outline-danger ml-auto" %>
+            <%= f.submit "確認画面へ進む", class: "btn btn-md btn-outline-danger ml-auto" %>
           </div>
           <% end %>
         </div>

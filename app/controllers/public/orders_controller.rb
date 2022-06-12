@@ -14,13 +14,13 @@ class Public::OrdersController < ApplicationController
     if params[:select] == "select_address"
       session[:address] = params[:address]
     elsif params[:select] == "my_address"
-      session[:address] ="〒"+current_customer.potal_code+current_customer.addredd+current_customer.last_name+current_customer.first_name
+      session[:address] ="〒"+current_customer.potal_code+current_customer.address+current_customer.last_name+current_customer.first_name
     end
     if session[:address].present? && session[:payment].present?
       redirect_to orders_confirm_path
     else
      flash[:order_new] = "支払い方法と配送先を選択してください"
-     render new_order_path
+     render :new
     end
   end
 
@@ -30,12 +30,23 @@ class Public::OrdersController < ApplicationController
   end
 
   def confirm
-    @orders = current_customer.orders
-    @total_payment = calculate(current_customer)
-    if session[:address].length <8
-      @address = ShippingAddress.find(session[:address])
-    end
+    @cart_items = current_customer.cart_items
+     if params[:order][:select] == "my_address"
+       @order = Order.new(order_params)
+      @order.shipping_post_code = current_customer.postal_code
+      @order.shipping_adress = current_customer.address
+      @order.shipping_name = current_customer.first_name + current_customer.last_name
+     elsif params[:order][:select] == "select_address"
+      @order = Address.find(params[:order][:address_id])
+     elsif params[:order][:select] == "new_address"
+      @order = Order.new(order_params)
+      @address = Address.find(params[:order][:address_id])
+      @order.postal_code = @address.potal_code
+      @order.address = @address.address
+      @order.name = @address.name
+     end
   end
+
 
   def create_shipping_address
     @shipping_address = ShippingAddress.new(shipping_address_params)
@@ -62,8 +73,8 @@ class Public::OrdersController < ApplicationController
       @order_detail.quantity = cart.quantity
       @order_detail.item_status = 0
       @order_detail.save
-
     end
+
     current_customer.cart_items.destroy_all
     session.delete(:address)
     session.delete(:payment)
@@ -75,14 +86,13 @@ class Public::OrdersController < ApplicationController
      params.require(:shipping_address).permit(:customer_id,:last_name, :first_name, :post_code, :address)
    end
    def order_params
-     params.require(:order).permit(:customer_id, :address, :payment, :carriage, :total_payment, :order_status)
+     params.require(:order).permit(:customer_id, :shipping_post_code, :shipping_adress, :shipping_name, :postage, :total_payment, :payment_method, :order_status)
    end
 
-   # 商品合計（税込）の計算
    def calculate(user)
      total_price = 0
      user.cart_items.each do |cart_item|
-       total_price += cart_item.quantity * cart_item.item.price
+       total_price += cart_item.amount * cart_item.item.price
      end
      return (total_price * 1.1).floor
    end

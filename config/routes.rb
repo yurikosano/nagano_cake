@@ -4,7 +4,7 @@ scope module: :public do
   root to: 'homes#top'
   get 'homes/about' => "homes#about"
   get '/customers/my_page' => 'customers#show'
-  get '/orders/confirm' => 'orders#confirm', as: 'orders_confirm'
+  post '/orders/confirm' => 'orders#confirm', as: 'orders_confirm'
   get '/orders/create_order' => 'orders#create_order'
   post '/orders/create_shipping_address' => 'orders#create_shipping_address'
   get '/customers/:id/unsubscribe' => 'customers#unsubscribe', as: 'unsubscribe_customer'
