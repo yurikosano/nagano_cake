@@ -30,7 +30,7 @@
             <tr>
             <th>販売ステータス</th>
             <td>
-              <% if @item.is_active == nil %>
+              <% if @item.is_active == true %>
                 <strong class="text-success">販売中</strong>
               <% else %>
                 <strong class="text-danger">販売停止中</strong>

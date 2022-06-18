@@ -32,7 +32,7 @@ class Public::OrdersController < ApplicationController
   def confirm
     @cart_items = current_customer.cart_items
      if params[:order][:select] == "my_address"
-       @order = Order.new(order_params)
+      @order = Order.new(order_params)
       @order.shipping_post_code = current_customer.postal_code
       @order.shipping_adress = current_customer.address
       @order.shipping_name = current_customer.first_name + current_customer.last_name
@@ -59,8 +59,8 @@ class Public::OrdersController < ApplicationController
   def create_order
     @order = Order.new
     @order.customer_id = current_customer.id
-    @order.address = session[:address]
-    @order.payment = session[:payment]
+    #@order.address = session[:address]
+    #@order.payment = session[:payment]
     @order.total_payment = calculate(current_customer)
     @order.order_status = 0
     @order.save
