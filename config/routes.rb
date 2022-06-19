@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  namespace :admin do
+    get 'orders/show'
+  end
 scope module: :public do
   root to: 'homes#top'
   get 'homes/about' => "homes#about"
@@ -28,7 +31,7 @@ devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
 }
 
 namespace :admin do
-  root to: 'items#index'
+  root to: 'orders#index'
   resources :genres, only: [:index, :create, :edit, :update]
   resources :items, only: [:index, :new, :create, :show, :edit, :update]
   resources :customers, only: [:index, :show, :create, :edit, :update]
