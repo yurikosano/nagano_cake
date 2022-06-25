@@ -18,18 +18,15 @@
             </tr>
             <tr class="brown-border">
               <td>配送先</td>
-              <% if @order.address.length <8 %>
-              <% shipping_address = ShippingAddress.find(@order.address) %>
               <td>
-                <%= "〒" + shipping_address.post_code + "  " + shipping_address.address + "  " + shipping_address.last_name + shipping_address.first_name %>
+                〒<%= @order.shipping_post_code %><br />
+                <%= @order.shipping_adress %><br />
+                <%= @order.shipping_name %>
               </td>
-              <% else %>
-              <td><%= @order.address %></td>
-              <% end %>
             </tr>
             <tr class="brown-border">
               <td>支払い方法</td>
-              <td><%= @order.payment %></td>
+              <td><%= @order.payment_method %></td>
             </tr>
             <tr class="brown-border">
               <td>ステータス</td>
@@ -52,11 +49,11 @@
             </tr>
             <tr class="brown-border">
               <td>配送料</td>
-              <td><%= @order.carriage %></td>
+              <td><%= 800 %></td>
             </tr>
             <tr class="brown-border">
               <td>ご請求額</td>
-              <td><%= @order.total_payment + @order.carriage %></td>
+              <td><%= @order.total_payment + 800 %></td>
             </tr>
           </tbody>
         </table>
@@ -79,13 +76,13 @@
             <th>小計</th>
           </tr>
         </thead>
-        <% @order_details.each do |d| %>
+        <% @order_details.each do |order_detail| %>
         <tbody>
           <tr class="brown-border">
-            <td><%= d.item_name %></td>
-            <td><%= (d.item_price * 1.1).floor %></td>
-            <td><%= d.quantity %></td>
-            <td><%= ((d.item_price * d.quantity) * 1.1).floor %></td>
+            <td><%= order_detail.item.name %></td>
+            <td><%= (order_detail.purchase_price * 1.1).floor %></td>
+            <td><%= order_detail.amount %></td>
+            <td><%= ((order_detail.purchase_price * order_detail.amount) * 1.1).floor %></td>
           </tr>
         </tbody>
         <% end %>

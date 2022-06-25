@@ -23,23 +23,26 @@
               ようこそ、<%= current_customer.first_name %><%= current_customer.last_name %>さん！
             </span>
             <li class="nav-item">
-              <%= link_to customers_my_page_path, class: 'nav-link text-dark' do %><i class="fas fa-list"></i> マイページ<% end %>
+              <%= link_to customers_my_page_path, class: 'nav-link text-dark' do %><i class="fas fa-user"></i> マイページ<% end %>
             </li>
             <li class="nav-item">
-                <%= link_to items_path, class: 'nav-link text-dark' do %><i class="far fa-address-book"></i> 商品一覧<% end %>
+                <%= link_to items_path, class: 'nav-link text-dark' do %><i class="fas fa-cookie-bite"></i> 商品一覧<% end %>
             </li>
             <li class="nav-item">
-               <%= link_to cart_items_path, class: 'btn btn-default' do %><i class="fas fa-info-circle"></i> カート<% end %>
+               <%= link_to cart_items_path, class: 'btn btn-default' do %><i class="fas fa-shopping-cart"></i> カート<% end %>
             </li>
             <li class="nav-item">
               <%= link_to destroy_customer_session_path, method: :delete, class: 'nav-link text-dark' do %><i class="fas fa-sign-out-alt"></i> ログアウト<% end %>
             </li>
             <% elsif admin_signed_in? %>
             <li class="nav-item">
-              <%= link_to admin_items_path, class: 'nav-link text-dark' do %><i class="fas fa-list"></i> 商品一覧<% end %>
+              <%= link_to admin_items_path, class: 'nav-link text-dark' do %><i class="fas fa-cookie-bite"></i> 商品一覧<% end %>
             </li>
             <li class="nav-item">
                 <%= link_to admin_customers_path, class: 'nav-link text-dark' do %><i class="far fa-address-book"></i> 会員一覧<% end %>
+            </li>
+            <li class="nav-item">
+                <%= link_to admin_orders_path, class: 'nav-link text-dark' do %><i class="fas fa-clipboard-list"></i> 注文履歴一覧<% end %>
             </li>
             <li class="nav-item">
                <%= link_to admin_genres_path, class: 'btn btn-default' do %><i class="fas fa-info-circle"></i> ジャンル一覧<% end %>

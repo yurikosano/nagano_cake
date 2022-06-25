@@ -47,10 +47,21 @@
                 <%= f.label :product_status, "製作中", {value: :"製作中", style: "display: inline-block;"} %>
                 <%= f.radio_button :product_status, "complete_product" %>
                 <%= f.label :product_status, "製作完了", {value: :"製作完了", style: "display: inline-block;"} %>
+                <%= f.submit "更新", class: "btn btn-success" %>
              </td>
            </tr>
            <% end %>
          </tbody>
+        </table>
+        <div>
+          商品合計：<%= @total %>円
+        </div>
+        <div>
+          送料：800円
+        </div>
+        <div>
+          請求金額合計：<%= @total + 800 %>円
+        </div>
     </div>
   </div>
 </div>

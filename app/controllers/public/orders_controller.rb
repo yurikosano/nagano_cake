@@ -6,22 +6,36 @@ class Public::OrdersController < ApplicationController
   end
 
   def index
-    @orders = Order.where(customer_id :current_customer)
+    @orders = Order.where(customer_id: current_customer)
   end
 
   def create
-    session[:payment] = params[:payment]
-    if params[:select] == "select_address"
-      session[:address] = params[:address]
-    elsif params[:select] == "my_address"
-      session[:address] ="〒"+current_customer.potal_code+current_customer.address+current_customer.last_name+current_customer.first_name
+    order = current_customer.orders.build(order_params)
+
+    if params[:payment_method] && params[:address] == !null
+      order.total_payment = calculate(current_customer)
+      order.order_status = 0
+      order.save
+
+    current_customer.cart_items.each do |cart_item|
+      @order_detail = OrderDetail.new
+      @order_detail.order_id = order.id
+      @order_detail.item_id = cart_item.item_id
+      @order_detail.purchase_price = cart_item.item.price
+      @order_detail.amount = cart_item.amount
+      @order_detail.product_status = 0
+      @order_detail.save
     end
-    if session[:address].present? && session[:payment].present?
-      redirect_to orders_confirm_path
-    else
-     flash[:order_new] = "支払い方法と配送先を選択してください"
-     render :new
-    end
+
+    current_customer.cart_items.destroy_all
+    session.delete(:address)
+    session.delete(:payment)
+    redirect_to orders_complete_path
+
+     else
+      flash[:order_new] = "支払い方法と配送先を選択してください"
+      render :new
+     end
   end
 
   def show
@@ -30,9 +44,11 @@ class Public::OrdersController < ApplicationController
   end
 
   def confirm
+    @order = current_customer.orders.new
+
     @cart_items = current_customer.cart_items
      if params[:order][:select] == "my_address"
-      @order = Order.new(order_params)
+      # @order = Order.new(order_params)
       @order.shipping_post_code = current_customer.postal_code
       @order.shipping_adress = current_customer.address
       @order.shipping_name = current_customer.first_name + current_customer.last_name
@@ -65,20 +81,20 @@ class Public::OrdersController < ApplicationController
     @order.order_status = 0
     @order.save
 
-    current_customer.cart_items.each do |cart|
+    current_customer.cart_items.each do |cart_item|
       @order_detail = OrderDetail.new
       @order_detail.order_id = @order.id
-      @order_detail.item_name = cart.item.name
-      @order_detail.item_price = cart.item.price
-      @order_detail.quantity = cart.quantity
-      @order_detail.item_status = 0
+      @order_detail.item_id = cart_item.item_id
+      @order_detail.purchase_price = cart_item.item.price
+      @order_detail.amount = cart_item.amount
+      @order_detail.product_status = 0
       @order_detail.save
     end
 
     current_customer.cart_items.destroy_all
     session.delete(:address)
     session.delete(:payment)
-    redirect_to complete_path
+    redirect_to orders_complete_path
   end
 
   private
