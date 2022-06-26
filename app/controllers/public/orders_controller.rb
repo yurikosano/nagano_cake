@@ -10,32 +10,29 @@ class Public::OrdersController < ApplicationController
   end
 
   def create
-    order = current_customer.orders.build(order_params)
-
-    if params[:payment_method] && params[:address] == !null
-      order.total_payment = calculate(current_customer)
-      order.order_status = 0
-      order.save
-
-    current_customer.cart_items.each do |cart_item|
-      @order_detail = OrderDetail.new
-      @order_detail.order_id = order.id
-      @order_detail.item_id = cart_item.item_id
-      @order_detail.purchase_price = cart_item.item.price
-      @order_detail.amount = cart_item.amount
-      @order_detail.product_status = 0
-      @order_detail.save
-    end
-
-    current_customer.cart_items.destroy_all
-    session.delete(:address)
-    session.delete(:payment)
-    redirect_to orders_complete_path
-
-     else
+    @order = current_customer.orders.build(order_params)
+    #binding.irb
+    if params[:order][:payment_method] && params[:order][:shipping_adress]
+      @order.total_payment = calculate(current_customer)
+      @order.order_status = 0
+      @order.save
+      current_customer.cart_items.each do |cart_item|
+        @order_detail = OrderDetail.new
+        @order_detail.order_id = @order.id
+        @order_detail.item_id = cart_item.item_id
+        @order_detail.purchase_price = cart_item.item.price
+        @order_detail.amount = cart_item.amount
+        @order_detail.product_status = 0
+        @order_detail.save
+      end
+      current_customer.cart_items.destroy_all
+      session.delete(:address)
+      session.delete(:payment)
+      redirect_to orders_complete_path
+    else
       flash[:order_new] = "支払い方法と配送先を選択してください"
       render :new
-     end
+    end
   end
 
   def show
@@ -45,21 +42,21 @@ class Public::OrdersController < ApplicationController
 
   def confirm
     @order = current_customer.orders.new
-
+    @order = Order.new(order_params)
     @cart_items = current_customer.cart_items
      if params[:order][:select] == "my_address"
-      # @order = Order.new(order_params)
       @order.shipping_post_code = current_customer.postal_code
       @order.shipping_adress = current_customer.address
       @order.shipping_name = current_customer.first_name + current_customer.last_name
      elsif params[:order][:select] == "select_address"
-      @order = Address.find(params[:order][:address_id])
-     elsif params[:order][:select] == "new_address"
-      @order = Order.new(order_params)
       @address = Address.find(params[:order][:address_id])
-      @order.postal_code = @address.potal_code
-      @order.address = @address.address
-      @order.name = @address.name
+      @order.shipping_post_code = @address.potal_code
+      @order.shipping_adress = @address.address
+      @order.shipping_name = @address.name
+     elsif params[:order][:select] == "new_address"
+      @order.shipping_post_code = params[:order][:shipping_post_code]
+      @order.shipping_adress = params[:order][:shipping_adress]
+      @order.shipping_name = params[:order][:shipping_name]
      end
   end
 

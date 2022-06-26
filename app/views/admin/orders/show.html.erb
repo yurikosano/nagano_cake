@@ -2,17 +2,13 @@
   <div class="row">
     <div class="center-block">
       <h2>注文履歴詳細</h2>
-      <% @order.each do |order| %>
-      <div>購入者：<%= order.customer.first_name %><%= order.customer.last_name %></div>
-      <div>注文日：<%= order.created_at.strftime('%Y/%m/%d %H:%M:%S') %></div>
-      <div>配送先：<%= order.shipping_adress %><%= order.shipping_name %></div>
-      <div>支払い方法：<%= order.payment_method_i18n %></div>
+      <div>購入者：<%= @order.customer.first_name %><%= @order.customer.last_name %></div>
+      <div>注文日：<%= @order.created_at.strftime('%Y/%m/%d %H:%M:%S') %></div>
       <div>
-        注文ステータス:
-        <%= form_with: @order, url: admin_order_path do |f| %>
-        <%= f.select :status, Order.statuses_i18n.invert %>
-        <%= f.submit "更新", class: "btn btn-success" %>
-        </div>
+        配送先：〒<%= @order.shipping_post_code %><br />
+        <%= @order.shipping_adress %><br />
+        <%= @order.shipping_name %></div>
+      <div>支払い方法：<%= @order.payment_method_i18n %></div>
         <table border="1">
          <thead>
            <tr>
@@ -24,20 +20,21 @@
            </tr>
          </thead>
          <tbody>
-           <%= @order_details.each do |order_detail| %>
+           <% @order_details.each do |order_detail| %>
            <tr>
              <td>
                <%= order_detail.item.name %>
              </td>
              <td>
-               <%= (order_detail.item.price * 1.1).floor %>
+               <%= (order_detail.purchase_price * 1.1).floor %>
              </td>
              <td>
-               <%= order_detail.item.amount %>
+               <%= order_detail.amount %>
              </td>
              <td>
-               <%= (order_detail.item.price * 1.1).floor * order_detail.item.amount %>
+               <%= (order_detail.purchase_price * 1.1).floor * order_detail.amount %>
              </td>
+             <%= form_with model: order_detail, url: admin_order_detail_path(order_detail.id), method: :patch do |f| %>
              <td>
                 <%= f.radio_button :product_status, "product_impossible" %>
                 <%= f.label :product_status, "製作不可", {value: :"製作不可", style: "display: inline-block;"} %>
@@ -47,10 +44,22 @@
                 <%= f.label :product_status, "製作中", {value: :"製作中", style: "display: inline-block;"} %>
                 <%= f.radio_button :product_status, "complete_product" %>
                 <%= f.label :product_status, "製作完了", {value: :"製作完了", style: "display: inline-block;"} %>
+                <%= f.submit "更新", class: "btn btn-success" %>
              </td>
+             <% end %>
            </tr>
-           <% end %>
+          <% end %>
          </tbody>
+        </table>
+        <div>
+          商品合計：<%= @total %>円
+        </div>
+        <div>
+          送料：800円
+        </div>
+        <div>
+          請求金額合計：<%= @total + 800 %>円
+        </div>
     </div>
   </div>
 </div>

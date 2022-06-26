@@ -25,12 +25,16 @@ class Public::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-  
+
   protected
   def customer_state
     @customer = Customer.find_by(email: params[:customer][:email])
     return if !@customer
-    if @customer.valid_password?([:customer][:password])
+    if @customer.valid_password?(params[:customer][:password])
     end
+  end
+
+  def after_sign_in_path_for(resource)
+     customers_path
   end
 end

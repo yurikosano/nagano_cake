@@ -67,15 +67,18 @@
       </div>
       <div class="row mt-3">
         <strong class="red-border px-3 mr-3">　お届け先　</strong>
-        <span class="brown-border px-3"><%= @order.shipping_adress %></span>
+        <span class="brown-border px-3">
+          <%= @order.shipping_post_code %>
+          <%= @order.shipping_adress %>
+          <%= @order.shipping_name %>
+          </span>
       </div>
     </div>
     <%= f.hidden_field :shipping_name, value: @order.shipping_name %>
     <%= f.hidden_field :shipping_post_code, value: @order.shipping_post_code %>
     <%= f.hidden_field :shipping_adress, value: @order.shipping_adress %>
     <%= f.hidden_field :payment_method, value: @order.payment_method %>
-    <%= f.hidden_field :customer_id, value: @order.customer_id %>
-    <%= f.hidden_field :total_payment, value: @order.total_payment %>
+    <%= f.hidden_field :postage, value: 800 %>
     <div class="col-3">
       <%= f.submit "購入を確定する", class: "btn btn-lg btn-danger ml-auto" %>
     </div>

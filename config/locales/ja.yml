@@ -4,3 +4,11 @@
         payment_method:
           credit_card: "クレジットカード"
           transfer: "銀行振込"
+  ja:
+    enums:
+      order_detail:
+        product_status:
+          product_impossible: "製作不可"
+          wait_product: "製作待ち"
+          producting: "製作中"
+          complete_product: "製作完了"

@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <%= form_with model: @item, url: admin_item_path, method: :patch do |f| %>
+    <%= form_with model: @item, url: admin_item_path(@item.id), method: :patch do |f| %>
     <h2>商品編集</h2>
       <div class="col-xs-5">
         <div class="field">
@@ -27,9 +27,9 @@
         </div>
         <div class="field">
           <%= f.radio_button :is_active, :true %>
-          <%= f.label :is_active, "販売中", {value: :"0", style: "display: inline-block;"} %>
+          <%= f.label :is_active, "販売中", {value: :"販売中", style: "display: inline-block;"} %>
           <%= f.radio_button :is_active, :false %>
-          <%= f.label :is_active, "販売停止中", {value: :"1", style: "display: inline-block;"} %>
+          <%= f.label :is_active, "販売停止中", {value: :"販売停止中", style: "display: inline-block;"} %>
         </div>
         <div class="actions-row">
           <%= f.submit "変更を保存", class: "btn btn-success" %>

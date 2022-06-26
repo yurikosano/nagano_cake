@@ -1,10 +1,13 @@
 class Admin::OrderDetailsController < ApplicationController
-  def show
-    @order = Order.all
-    @order_details = OrderDetail.all
-    @total = 0
-    @ordered_item.each do |ordered_item|
-      tol = ordered_detail.item.price * ordered_detail.item.amount
-      @total += tol
-    end
+
+  def update
+    @order_detail = OrderDetail.find(params[:id])
+    @order_detail.update(order_detail_params)
+    redirect_to admin_order_path(@order_detail.order_id)
   end
+
+  private
+  def order_detail_params
+     params.require(:order_detail). permit(:product_status)
+  end
+end

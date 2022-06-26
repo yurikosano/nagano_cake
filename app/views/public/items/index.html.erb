@@ -26,7 +26,7 @@
       </div>
 	    <div class="row">
 	    	<% @items.each do |item| %>
-          <div class="col-3 mt-3">
+          <div class="col-5 mt-5">
 		        <%= link_to item_path(item) do %>
             <% if item.image.attached? %>
                <%= image_tag item.image, size: "300x217" %>
