@@ -15,7 +15,7 @@ class Public::CustomersController < ApplicationController
     redirect_to customers_my_page_path
    else
     flash[:danger] = "編集されませんでした。"
-    render :edit_public_customer
+    render :edit
    end
   end
 

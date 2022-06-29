@@ -62,14 +62,14 @@
     <div class="offset-2 col-6">
       <div class="row mt-3">
         <strong class="red-border px-3 mr-3">お支払い方法</strong>
-        <%= form_with model: @order, url: orders_path, method: :post do |f| %>
         <span class="brown-border px-3"><%= @order.payment_method_i18n %></span>
+        <%= form_with model: @order, url: orders_path, method: :post do |f| %>
       </div>
       <div class="row mt-3">
         <strong class="red-border px-3 mr-3">　お届け先　</strong>
         <span class="brown-border px-3">
-          <%= @order.shipping_post_code %>
-          <%= @order.shipping_adress %>
+          〒<%= @order.shipping_post_code %><br />
+          <%= @order.shipping_adress %><br />
           <%= @order.shipping_name %>
           </span>
       </div>

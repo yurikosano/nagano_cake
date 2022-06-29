@@ -59,7 +59,7 @@
   <div class="col-md-6">
     <%= link_to "買い物を続ける>", items_path, class: "btn btn-primary go-to-order" %>
     <% if @cart_items != [] %>
-      <%= link_to "情報入力に進む>", new_order_path, class: "btn btn-success go-to-order" %>
+      <%= link_to "情報入力に進む>", new_order_path, class: "btn btn-success go-to-order", data: {"turbolinks"=>false} %>
     <% end %>
   </div>
 </div>
